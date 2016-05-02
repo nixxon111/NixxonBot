@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python3
 import discord
 import asyncio
 
@@ -9,6 +9,7 @@ pw = content[0]
 
 client = discord.Client()
 
+
 @client.event
 @asyncio.coroutine
 def on_message(message):
@@ -16,6 +17,7 @@ def on_message(message):
         if message.content.startswith('/nix'):
                 print("!hello seen")
                 yield from client.send_message(message.channel, 'NixxonBot greets you.')
+
 
 @client.event
 @asyncio.coroutine
@@ -25,6 +27,6 @@ def on_ready():
         print(client.user.id)
         print('------')
 
-client.run("joervad@hotmail.com",pw)
+client.run("joervad@hotmail.com", pw)
 
 print("NixxonBot logged out")
