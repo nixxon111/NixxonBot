@@ -1,0 +1,2 @@
+# NixxonBot
+Discord python bot
