@@ -60,4 +60,4 @@ client.run("joervad@hotmail.com", pw)
 print("NixxonBot logged out")
 
 
-#C:\Users\nico\Documents\NixxonBot\bot.py pi@192.168.0.23:/home/pi
+#C:\pscp.exe C:\Users\nico\Documents\NixxonBot\bot.py pi@192.168.0.23:/home/pi
