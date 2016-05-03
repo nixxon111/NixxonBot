@@ -60,4 +60,7 @@ client.run("joervad@hotmail.com", pw)
 print("NixxonBot logged out")
 
 
-#C:\pscp.exe C:\Users\nico\Documents\NixxonBot\bot.py pi@192.168.0.23:/home/pi
+#C:\pscp.exe C:\Users\nico\Documents\NixxonBot\bot.py pi@192.168.0.23:/home/discord_bot/
+
+#Mossei and Syre use this (install pscp, comes with putty, write your own git repository location)
+#C:\pscp.exe -P 32678 C:\Users\nico\Documents\NixxonBot\bot.py read@proxy54.yoics.net:/home/discord_bot/
