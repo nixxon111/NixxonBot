@@ -34,15 +34,34 @@ def on_message(message):
 			yield from client.send_message(message.author, method)
 
 	elif message.content.startswith('/slap'):
-		memberList = list(client.get_all_members())
-		print(str(memberList) + " and length: " + str(len(memberList)))
-		num = randint(0, len(memberList)-1)
-		if memberList[num].nick is None:
-			slappee = memberList[num]
-		else:
-			slappee = memberList[num].nick
-		yield from client.send_message(message.channel, str(slappee) + " has been slapped by " + str(message.author))
+		args = message.content.split()
+		print(str(args))
+		print(str(len(args)))
+		if len(args) == 1:
+			memberList = list(client.get_all_members())
+			print(str(memberList) + " and length: " + str(len(memberList)))
+			num = randint(0, len(memberList)-1)
+			if memberList[num].nick is None:
+				slappee = memberList[num]
+			else:
+				slappee = memberList[num].nick
+			yield from client.send_message(message.channel, str(slappee) + " has been slapped by " + str(message.author))
+		elif len(args) == 2:
+			memberList = list(client.get_all_members())
+			print(str(memberList) + " and length: " + str(len(memberList)))
+			for mem in memberList:
+				if str(mem).lower() == str(args[1]).lower():
+					yield from client.send_message(message.channel, str(mem) + " has been slapped by " + str(message.author))
+					return
+				elif mem.nick is not None:
+					if mem.nick.lower() == str(args[1]).lower():
+						yield from client.send_message(message.channel, str(mem.nick) + " has been slapped by " + str(message.author))
+						return
 
+
+
+		else:
+			print("invalid /slap arguments" + message.content)
 
 
 @client.event
@@ -60,4 +79,9 @@ client.run("joervad@hotmail.com", pw)
 print("NixxonBot logged out")
 
 
-#C:\Users\nico\Documents\NixxonBot\bot.py pi@192.168.0.23:/home/pi
+#C:\pscp.exe C:\Users\nico\Documents\NixxonBot\bot.py pi@192.168.0.23:/home/discord_bot/
+
+#Mossei and Syre use this (install pscp, comes with putty, write your own git repository location)
+#C:\pscp.exe -P 32678 C:\Users\nico\Documents\NixxonBot\bot.py read@proxy54.yoics.net:/home/discord_bot/
+#tmux a -t 0 (to detach from tmux session: "ctrl-B" followed by "D") //always run bot.py from tmux session "0"
+#python3 /home/discord_bot/bot.py (to cancel script: "ctrl-C")
