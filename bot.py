@@ -27,8 +27,10 @@ lonelyComments.append("That lonely feeling...")
 
 client = discord.Client()
 
+# GLOBALS ------------------------------------------------------------------------
 lastMessage = datetime.now()
 messageChannel = None
+lonely = True
 
 @client.event
 @asyncio.coroutine
@@ -38,9 +40,9 @@ def on_message(message):
 	if message.author == client.user:
 		return
 
-	print("Message content: "+message.content)
-
+	global lastMessage
 	lastMessage = datetime.now()
+
 	if message.content.startswith('/nix'):
 		yield from client.send_message(message.author, 'NixxonBot --help:')
 		for method in methodList:
@@ -70,13 +72,22 @@ def on_message(message):
 					if mem.nick.lower() == str(args[1]).lower():
 						yield from client.send_message(message.channel, str(mem.nick) + " has been slapped by " + str(message.author))
 						return
-
-
-
 		else:
 			print("invalid /slap arguments" + message.content)
 	elif message.content.startswith('/clock'):
 		yield from client.send_message(message.channel, str(datetime.time(datetime.now()+timedelta(hours=2))))
+
+	elif message.content.startswith('/stoplonely'):
+		if not message.channel.is_private:
+			global lonely
+			lonely =  False
+			yield from client.send_message(message.channel, "Stopped 'lonely' routine")
+
+	elif message.content.startswith('/startlonely'):
+		if not message.channel.is_private:
+			yield from client.send_message(message.channel, "Started 'lonely' routine. Will feel lonely after some time. Comfort him for 'Bot Reputation'.")
+			global lonely
+			lonely =  True
 
 @asyncio.coroutine
 def lonely():
@@ -84,9 +95,13 @@ def lonely():
 	
 	while not client.is_closed:
 		if messageChannel is not None:
+			global lastMessage
 			if lastMessage is not None:
 				if (lastMessage + timedelta(hours=4)) < datetime.now():
-					yield from client.send_message(channel, lonelyComments[randint(0, len(lonelyComments)-1)])
+					global lonely
+					print(str(lastMessage) + " was last message, should be 4 hours from " + str(datetime.now()) + ", but was printed: " + lonely)
+					if lonely == True:
+						yield from client.send_message(channel, lonelyComments[randint(0, len(lonelyComments)-1)])
 		yield from asyncio.sleep(1300+randint(0,2800)) # task runs every ~4 hours (14400)
 
 @client.event
